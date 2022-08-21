@@ -23,8 +23,6 @@ const Products = ({ cate }) => {
     getProducts(cate.name);
   }, []);
 
-  cate.subCategories?.split(", ");
-
   return (
     <>
       {isLoading && <Loading />}
@@ -34,7 +32,7 @@ const Products = ({ cate }) => {
             <Link to={`/list-products?category=${cate.name}`}>{cate.name}</Link>
           </h3>
           <ul>
-            {cate.subCategories?.split(", ").map((i) => (
+            {cate.subCategories.map((i) => (
               <li>
                 <Link to={`/list-products?category=${i}`}>{i}</Link>
               </li>

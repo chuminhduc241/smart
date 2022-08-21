@@ -26,8 +26,9 @@ const Products = () => {
   const [sort, setSort] = useState("-createdAt");
   const [category, setCategory] = useState();
   const [price, setPrice] = useState([0, 100000000]);
-
+  const [subCate, setSubCate] = useState([]);
   const [categories, setCategories] = useState();
+  const [subcategory, setSubcategories] = useState();
   const [data, setData] = useState([]);
 
   const [loading, setLoading] = useState(false);
@@ -56,16 +57,25 @@ const Products = () => {
     });
     setData(res);
   };
+  const getSubCates = async (category) => {
+    const res = await categoryService.getSubCategories(category);
+    setSubCate(res?.subCates)
+    const result =  new URLSearchParams(search).get("subcategory") || res?.subCates[0].name
+    setSubcategories(result)
+    console.log("result", result);
+  };
   useEffect(() => {
     setLoading(true);
     const page = +new URLSearchParams(search).get("page") || 1;
     setPage(page);
     const sort = new URLSearchParams(search).get("sort") || "-createdAt";
     setSort(sort);
-    const category = new URLSearchParams(search).get("category") || "HP";
+    const category = new URLSearchParams(search).get("category") || "LAPTOP";
     setCategory(category);
+    getSubCates(category)
     const price1 = +new URLSearchParams(search).get("price_spe[gte]") || 0;
-    const price2 = +new URLSearchParams(search).get("price_spe[lte]") || 100000000;
+    const price2 =
+      +new URLSearchParams(search).get("price_spe[lte]") || 100000000;
     setPrice([price1, price2]);
     getProductByID(page, limit, sort, category, price);
     getCategories();
@@ -87,12 +97,11 @@ const Products = () => {
   const handleChangeCategory = (e) => {
     pushQuery({ page, sort, category: e.target.value, price });
   };
-
   return (
     <>
       {loading && <Loading />}
       <div className="grid wide pt-2 pb-2 mb-4 border-bottom">
-        <Breadcrumb value={category}/>
+        <Breadcrumb value={category} />
       </div>
       <div className="grid wide">
         <div className="row">
@@ -109,11 +118,11 @@ const Products = () => {
                       defaultValue="female"
                       name="radio-buttons-group"
                     >
-                      {categories &&
-                        categories.map((cate) => (
+                      {subCate &&
+                        subCate.map((cate) => (
                           <FormControlLabel
                             key={cate._id}
-                            checked={cate.name===category}
+                            checked={cate.name === subcategory}
                             value={cate.name}
                             control={<Radio />}
                             label={cate.name}

@@ -2,7 +2,7 @@ import React from "react";
 import HeaderCart from "../../components/headerCart";
 import Search from "../../components/searchContainer";
 import Swipeable from "../../components/Swipeable";
-
+import logo from "../../assets/images/logo.png"
 const MidHeader = () => {
   return (
     <>
@@ -13,7 +13,7 @@ const MidHeader = () => {
               <Swipeable />
             </div>
             <a href="/" className="d-block">
-              <img src="" width ="178px" height="45px" alt="logo" />
+              <img src={logo} width ="45px" height="45px" alt="logo" />
             </a>
             <div></div>
           </div>

@@ -14,4 +14,7 @@ router
   .put(categoryCtrl.updateCategory)
   .get(categoryCtrl.detailCategory);
 
+
+router.get("/subcategory/:name", categoryCtrl.getSubCategories);
+
 module.exports = router;

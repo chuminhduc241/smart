@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { CategoryService } from "../../services/category-service";
-import { Accordion, AccordionTab } from "primereact/accordion";
 import "./nav.scss";
 
 const Nav = () => {
@@ -20,12 +19,7 @@ const Nav = () => {
     };
     getCates();
   }, []);
-  if (categories.length > 0) {
-    categories.map((e) => {
-      e.subCategoriesName = e.subCategories?.split(", ") || [];
-      return e;
-    });
-  }
+  console.log('categories', categories);
 
   return (
     <div className="wrap_main">
@@ -43,21 +37,17 @@ const Nav = () => {
                 <ul className="tab-menu">
                   {categories &&
                     categories.map((item) => (
-                      <li key={item._id}>
-                        <Accordion>
-                          <AccordionTab header={item.name}>
-                            {item.subCategoriesName.length > 0 &&
-                              item.subCategoriesName.map((k, index) => (
-                                <ul key={index}>
-                                  <li>
-                                    <Link to={`/list-products?category=${k}`}>
-                                      {k}
-                                    </Link>
-                                  </li>
-                                </ul>
-                              ))}
-                          </AccordionTab>
-                        </Accordion>
+                      <li key={item._id} style={{position: 'relative'}}>
+                        <Link className="a" to={`/list-products?category=${item.name}`} >{item.name}</Link>
+                        <ul className="tab-menu1" style={{position: 'absolute', top: '0', left: '100%'}}>
+                          {
+                            item.subCategories.map(i=>(
+                              <li key={i._id} >
+                                <Link to={`/list-products?category=${item.name}&subcategory=${i.name}`}>{i.name}</Link>
+                              </li>
+                            ))
+                          }
+                        </ul>
                       </li>
                     ))}
                 </ul>

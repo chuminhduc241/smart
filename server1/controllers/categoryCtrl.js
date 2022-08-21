@@ -26,15 +26,34 @@ const categoryCtrl = {
   // only admin can create , delete and update category
   createCategory: async (req, res) => {
     try {
-      const { name, subCategories } = req.body;
+      const { name } = req.body;
+      const subCategories = ['fdfd', 'HfdfdfP']
       const category = await Category.findOne({ name });
       if (category) return res.status(400).json({ msg: "danh mục đã tồn tại" });
       const newCategory = new Category({
         name: name,
-        subCategories: subCategories
+        subCategories: subCategories.map((item) => ({
+          name: item,
+        })),
       });
       await newCategory.save();
       res.json({ msg: "Tạo thành công" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+
+  getSubCategories: async (req, res) => {
+    try {
+      const category = await Category.findOne({ name: req.params.name });
+      if (!category) {
+        return res.status(401).json({ msg: "ko tồn tại category" });
+      }
+
+      res.json({
+        subCates: category.subCategories
+      })
+      
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

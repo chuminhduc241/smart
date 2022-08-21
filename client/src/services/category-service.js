@@ -20,4 +20,10 @@ export class CategoryService extends ServiceBase {
     const id = params;
     return await this.delete(`/category/${id}`);
   };
+  getSubCategories = async (params) => {
+    const name = params;
+    console.log("check", name);
+
+    return await this.get(`/subcategory/${name}`);
+  };
 }

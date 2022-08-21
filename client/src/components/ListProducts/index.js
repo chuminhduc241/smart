@@ -18,16 +18,16 @@ const ListProducts = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const getCategories = async () => {
-      setIsLoading(true);
-      const categories = await categoryService.getCategory();
-      dispatch(getCategory({ categories: categories }));
-      setCates(categories);
-      setIsLoading(false);
-    };
-    getCategories();
-  }, []);
+  // useEffect(() => {
+  //   const getCategories = async () => {
+  //     setIsLoading(true);
+  //     const categories = await categoryService.getCategory();
+  //     dispatch(getCategory({ categories: categories }));
+  //     setCates(categories);
+  //     setIsLoading(false);
+  //   };
+  //   getCategories();
+  // }, []);
 
   useEffect(() => {
     const getProducts = async () => {
